@@ -79,7 +79,7 @@ for size in sizes:
         numbers = list(map(int, data.strip('[]\n').split(', ')))
         ma_sequence.append(numbers)
 
-    element_recherche = 1230
+    element_recherche = 555
 
     # Measure the execution time for DPR
     start_time = time.time()
