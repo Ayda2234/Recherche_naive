@@ -1,15 +1,12 @@
 import random
 import time
-#import matplotlib as plt 
+import matplotlib.pyplot as plt
 
-
-# to generate random data
+# Function to generate random data
 def generate_dataset(size):
-    return [f"[{', '.join(str(random.randint(1 , 10)) for _ in range(size))}]" for _ in range(15)]    
+    return [f"[{', '.join(str(random.randint(1, 10000)) for _ in range(size))}]" for _ in range(25)]
 
-# fucntion of naive search 
-
-
+# Function of naive search
 def recherche_naive(element_cible, data):
     occurence = 0
     for sublist in data:
@@ -17,46 +14,43 @@ def recherche_naive(element_cible, data):
             occurence += 1
     return occurence
 
+# Sizes to generate data for
+sizes = [10, 100, 1000, 10000]
+execution_times = []
 
-#Sizes to generate data for 
-
-sizes = [10 , 100 , 1000 , 10000 ]
-
-# the file name where i stored my data
-
+# The file name where I stored my data
 dataset_file = "data.txt"
 
-# Open the files in write mode 
+# Measure and print execution time for each size
+for size in sizes:
+    # Repeat the operation for each size 15 times
+    random_data = generate_dataset(size)
 
-with open(dataset_file, "w") as f:
-    # repeat the operation for each size 15 times 
-    for size in sizes:
-        random_data = generate_dataset(size)
-        # write the data in the text file "data.txt"
-        print(file=f)
-        for data in random_data:
-           print(data, file=f)
-        print("#" * 30 , file=f)
-
-
-# Get the dataset from the text file as numbers 
-with open(dataset_file, "r") as f:
+    # Get the dataset from the text file as numbers
     ma_sequence = []
-    for line in f:
-        if line.startswith("["):
-            # Check if the line starts with "[" before attempting to convert
-            numbers = list(map(int, line.strip('[]\n').split(', ')))
-            ma_sequence.append(numbers)
+    for data in random_data:
+        numbers = list(map(int, data.strip('[]\n').split(', ')))
+        ma_sequence.append(numbers)
 
+    element_recherche = 1230
 
-element_recherche = 1
+    # Measure the execution time
+    start_time = time.time()
 
-resultat = recherche_naive(element_recherche, ma_sequence)
+    resultat = recherche_naive(element_recherche, ma_sequence)
 
-if resultat > 0:
-    print(f"L'élément {element_recherche} a été trouvé dans la séquence. et son occurence est {resultat}")
-else:
-    print(f"L'élément {element_recherche} n'a pas été trouvé dans la séquence.")
+    end_time = time.time()
+    execution_time = end_time - start_time
+    execution_times.append(execution_time)
 
+    if resultat > 0:
+        print(f"For size {size}, element {element_recherche} found with {resultat} occurrences. Execution time: {execution_time:.6f} seconds")
+    else:
+        print(f"For size {size}, element {element_recherche} not found. Execution time: {execution_time:.6f} seconds")
 
-
+# Plotting the execution times
+plt.plot(sizes, execution_times, marker='o')
+plt.xlabel('Size of data')
+plt.ylabel('execution time (seconds)')
+plt.title('exectution time')
+plt.show()
