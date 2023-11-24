@@ -19,7 +19,7 @@ def recherche_naive(element_cible, sequence):
     for element in sequence:
         if element == element_cible:
              occurrences += 1  # L'élément cible a été trouvé, donc retourne True
-    return occurrences # L'élément cible n'a pas été trouvé, donc retourne False
+    return occurrences # le nombre d'occurence de l'element cible 
 
 # Exemple d'utilisation
 ma_sequence = [1, 2, 3, 4, 5, 3, 5, 3]
